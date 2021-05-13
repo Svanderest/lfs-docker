@@ -1,0 +1,11 @@
+#!/bin/bash -e
+tarball="file-5.39.tar.gz"
+dirname=$(echo $tarball | awk -F.tar '{print $1}')
+tar xf $tarball
+pushd $dirname
+./configure --prefix=/usr
+make
+make install
+popd
+rm -rf $dirname
+touch /tmp/yes

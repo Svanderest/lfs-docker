@@ -1,0 +1,16 @@
+#!/bin/bash -e
+tarball="bash-5.1.tar.gz"
+dirname=$(echo $tarball | awk -F.tar '{print $1}')
+tar xf $tarball
+pushd $dirname
+sed -i  '/^bashline.o:.*shmbchar.h/a bashline.o: ${DEFDIR}/builtext.h' Makefile.in
+./configure --prefix=/usr                    \
+            --docdir=/usr/share/doc/bash-5.1 \
+            --without-bash-malloc            \
+            --with-installed-readline
+make
+make install
+mv -vf /usr/bin/bash /bin
+popd
+rm -rf $dirname
+touch /tmp/yes

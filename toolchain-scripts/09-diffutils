@@ -1,0 +1,9 @@
+#!/bin/bash -e
+tar xf diffutils-3.7.tar.xz
+pushd diffutils-3.7
+./configure --prefix=/usr --host=$LFS_TGT
+make
+make DESTDIR=$LFS install
+popd
+rm -rf diffutils-3.7
+touch /tmp/yes

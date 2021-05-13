@@ -1,0 +1,13 @@
+#!/bin/bash -e
+tarball="findutils-4.8.0.tar.xz"
+dirname=$(echo $tarball | awk -F.tar '{print $1}')
+tar xf $tarball
+pushd $dirname
+./configure --prefix=/usr --localstatedir=/var/lib/locate
+make
+make install
+mv -v /usr/bin/find /bin
+sed -i 's|find:=${BINDIR}|find:=/bin|' /usr/bin/updatedb
+popd
+rm -rf $dirname
+touch /tmp/yes

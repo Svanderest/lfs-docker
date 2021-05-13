@@ -1,0 +1,19 @@
+#!/bin/bash -e
+tar xf gcc-10.2.0.tar.xz
+pushd gcc-10.2.0
+mkdir build
+pushd build
+../libstdc++-v3/configure           \
+    --host=$LFS_TGT                 \
+    --build=$(../config.guess)      \
+    --prefix=/usr                   \
+    --disable-multilib              \
+    --disable-nls                   \
+    --disable-libstdcxx-pch         \
+    --with-gxx-include-dir=/tools/$LFS_TGT/include/c++/10.2.0
+make
+make DESTDIR=$LFS install
+popd
+popd
+rm -rf gcc-10.2.0
+touch /tmp/yes

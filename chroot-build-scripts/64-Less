@@ -1,0 +1,11 @@
+#!/bin/bash -e
+tarball="less-563.tar.gz"
+dirname=$(echo $tarball | awk -F.tar '{print $1}')
+tar xf $tarball
+pushd $dirname
+./configure --prefix=/usr --sysconfdir=/etc
+make
+make install
+popd
+rm -rf $dirname
+touch /tmp/yes

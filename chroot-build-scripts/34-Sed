@@ -1,0 +1,14 @@
+#!/bin/bash -e
+tarball="sed-4.8.tar.xz"
+dirname=$(echo $tarball | awk -F.tar '{print $1}')
+tar xf $tarball
+pushd $dirname
+./configure --prefix=/usr --bindir=/bin
+make
+make html
+make install
+install -d -m755           /usr/share/doc/sed-4.8
+install -m644 doc/sed.html /usr/share/doc/sed-4.8
+popd
+rm -rf $dirname
+touch /tmp/yes

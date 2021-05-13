@@ -1,0 +1,14 @@
+#!/bin/bash -e
+tarball="expat-2.2.10.tar.xz"
+dirname=$(echo $tarball | awk -F.tar '{print $1}')
+tar xf $tarball
+pushd $dirname
+./configure --prefix=/usr    \
+            --disable-static \
+            --docdir=/usr/share/doc/expat-2.2.10
+make
+make install
+install -v -m644 doc/*.{html,png,css} /usr/share/doc/expat-2.2.10
+popd
+rm -rf $dirname
+touch /tmp/yes

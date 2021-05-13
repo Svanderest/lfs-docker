@@ -1,0 +1,16 @@
+#!/bin/bash -e
+tar xf binutils-2.36.1.tar.xz
+pushd binutils-2.36.1
+mkdir build
+pushd build
+../configure --prefix=$LFS/tools       \
+             --with-sysroot=$LFS        \
+             --target=$LFS_TGT          \
+             --disable-nls              \
+             --disable-werror
+make
+make install
+popd
+popd
+rm -rf binutils-2.36.1
+touch /tmp/yes

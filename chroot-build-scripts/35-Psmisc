@@ -1,0 +1,13 @@
+#!/bin/bash -e
+tarball="psmisc-23.4.tar.xz"
+dirname=$(echo $tarball | awk -F.tar '{print $1}')
+tar xf $tarball
+pushd $dirname
+./configure --prefix=/usr
+make
+make install
+mv -v /usr/bin/fuser   /bin
+mv -v /usr/bin/killall /bin
+popd
+rm -rf $dirname
+touch /tmp/yes

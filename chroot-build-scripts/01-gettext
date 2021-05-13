@@ -1,0 +1,9 @@
+#!/bin/bash -e
+tar xf gettext-0.21.tar.xz
+pushd gettext-0.21
+./configure --disable-shared
+make
+cp -v gettext-tools/src/{msgfmt,msgmerge,xgettext} /usr/bin
+popd
+rm -rf gettext-0.21
+touch /tmp/yes

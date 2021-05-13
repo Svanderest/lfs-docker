@@ -1,0 +1,14 @@
+#!/bin/bash -e
+tarball="gettext-0.21.tar.xz"
+dirname=$(echo $tarball | awk -F.tar '{print $1}')
+tar xf $tarball
+pushd $dirname
+./configure --prefix=/usr    \
+            --disable-static \
+            --docdir=/usr/share/doc/gettext-0.21
+make
+make install
+chmod -v 0755 /usr/lib/preloadable_libintl.so
+popd
+rm -rf $dirname
+touch /tmp/yes

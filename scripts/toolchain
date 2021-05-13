@@ -1,0 +1,17 @@
+#!/bin/bash
+source /home/lfs/.bashrc
+pushd /sources
+for file in /scripts/toolchain-scripts/*
+do
+	echo "Executing: $file"
+	$file
+	if [ -f /tmp/yes ]
+	then
+		rm /tmp/yes
+	else
+		echo "$file failed"
+		exit
+	fi
+done
+touch /tmp/yes
+popd

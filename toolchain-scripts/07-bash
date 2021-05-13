@@ -1,0 +1,14 @@
+#!/bin/bash -e
+tar xf bash-5.1.tar.gz
+pushd bash-5.1
+./configure --prefix=/usr                   \
+            --build=$(support/config.guess) \
+            --host=$LFS_TGT                 \
+            --without-bash-malloc
+make
+make DESTDIR=$LFS install
+mv $LFS/usr/bin/bash $LFS/bin/bash
+ln -sv bash $LFS/bin/sh
+popd
+rm -rf bash-5.1
+touch /tmp/yes

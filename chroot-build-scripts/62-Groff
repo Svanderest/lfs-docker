@@ -1,0 +1,11 @@
+#!/bin/bash -e
+tarball="groff-1.22.4.tar.gz"
+dirname=$(echo $tarball | awk -F.tar '{print $1}')
+tar xf $tarball
+pushd $dirname
+PAGE=letter ./configure --prefix=/usr
+make -j1
+make install
+popd
+rm -rf $dirname
+touch /tmp/yes

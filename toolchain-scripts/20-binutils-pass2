@@ -1,0 +1,22 @@
+#!/bin/bash -e
+tar xf binutils-2.36.1.tar.xz
+pushd binutils-2.36.1
+mkdir build
+pushd build
+../configure                   \
+    --prefix=/usr              \
+    --build=$(../config.guess) \
+    --host=$LFS_TGT            \
+    --disable-nls              \
+    --enable-shared            \
+    --disable-werror           \
+    --enable-64-bit-bfd
+
+make -j1
+echo "MAKE DONE"
+make DESTDIR=$LFS install
+install -vm755 libctf/.libs/libctf.so.0.0.0 $LFS/usr/lib
+popd
+popd
+rm -rf binutils-2.36.1
+touch /tmp/yes

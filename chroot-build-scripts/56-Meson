@@ -1,0 +1,11 @@
+#!/bin/bash -e
+tarball="meson-0.57.1.tar.gz"
+dirname=$(echo $tarball | awk -F.tar '{print $1}')
+tar xf $tarball
+pushd $dirname
+python3 setup.py build
+python3 setup.py install --root=dest
+cp -rv dest/* /
+popd
+rm -rf $dirname
+touch /tmp/yes

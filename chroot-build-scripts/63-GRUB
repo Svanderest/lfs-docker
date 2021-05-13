@@ -1,0 +1,18 @@
+#!/bin/bash -e
+tarball="grub-2.04.tar.xz"
+dirname=$(echo $tarball | awk -F.tar '{print $1}')
+tar xf $tarball
+pushd $dirname
+sed "s/gold-version/& -R .note.gnu.property/" \
+    -i Makefile.in grub-core/Makefile.in
+./configure --prefix=/usr          \
+            --sbindir=/sbin        \
+            --sysconfdir=/etc      \
+            --disable-efiemu       \
+            --disable-werror
+make
+make install
+mv -v /etc/bash_completion.d/grub /usr/share/bash-completion/completions
+popd
+rm -rf $dirname
+touch /tmp/yes

@@ -1,0 +1,10 @@
+#!/bin/bash -e
+tar xf bison-3.7.5.tar.xz 
+pushd bison-3.7.5
+./configure --prefix=/usr \
+            --docdir=/usr/share/doc/bison-3.7.5
+make
+make install
+popd
+rm -rf bison-3.7.5
+touch /tmp/yes

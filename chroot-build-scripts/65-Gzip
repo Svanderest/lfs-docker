@@ -1,0 +1,12 @@
+#!/bin/bash -e
+tarball="gzip-1.10.tar.xz"
+dirname=$(echo $tarball | awk -F.tar '{print $1}')
+tar xf $tarball
+pushd $dirname
+./configure --prefix=/usr
+make
+make install
+mv -v /usr/bin/gzip /bin
+popd
+rm -rf $dirname
+touch /tmp/yes

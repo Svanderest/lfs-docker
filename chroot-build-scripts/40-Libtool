@@ -1,0 +1,12 @@
+#!/bin/bash -e
+tarball="libtool-2.4.6.tar.xz"
+dirname=$(echo $tarball | awk -F.tar '{print $1}')
+tar xf $tarball
+pushd $dirname
+./configure --prefix=/usr
+make
+make install
+rm -fv /usr/lib/libltdl.a
+popd
+rm -rf $dirname
+touch /tmp/yes

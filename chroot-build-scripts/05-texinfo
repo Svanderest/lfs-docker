@@ -1,0 +1,9 @@
+#!/bin/bash -e
+tar xf texinfo-6.7.tar.xz
+pushd texinfo-6.7
+./configure --prefix=/usr
+make
+make install
+popd
+rm -rf texinfo-6.7
+touch /tmp/yes

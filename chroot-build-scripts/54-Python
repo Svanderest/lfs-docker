@@ -1,0 +1,22 @@
+#!/bin/bash -e
+tarball="Python-3.9.2.tar.xz"
+dirname=$(echo $tarball | awk -F.tar '{print $1}')
+tar xf $tarball
+pushd $dirname
+./configure --prefix=/usr       \
+            --enable-shared     \
+            --with-system-expat \
+            --with-system-ffi   \
+            --with-ensurepip=yes
+make
+make install
+install -v -dm755 /usr/share/doc/python-3.9.2/html
+
+tar --strip-components=1  \
+    --no-same-owner       \
+    --no-same-permissions \
+    -C /usr/share/doc/python-3.9.2/html \
+    -xvf ../python-3.9.2-docs-html.tar.bz2
+popd
+rm -rf $dirname
+touch /tmp/yes

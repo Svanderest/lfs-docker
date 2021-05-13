@@ -1,0 +1,49 @@
+#!/bin/bash
+echo "GRUBTGT after chroot $GRUBTGT"
+for file in ifconfig.eth0 console clock
+do
+	if ! [[ -f /etc/sysconfig/$file ]]
+	then
+		install -m644 /sources/files/$file /etc/sysconfig/
+	fi
+done
+for file in resolv.conf hosts inittab profile inputrc shells
+do
+	if ! [[ -f /etc/$file ]]
+	then
+		install -m644 /sources/files/$file /etc/
+	fi
+done
+if ! [[ -f /etc/hostname ]]
+then
+	echo lfs > /etc/hostname
+fi
+mkdir /usr/src
+pushd /usr/src
+cp /sources/linux-5.10.17.tar.xz .
+tar xf linux-5.10.17.tar.xz
+ln -s linux-5.10.17 linux
+rm linux-5.10.17.tar.xz
+pushd linux
+make mrproper
+if [ -f /boot/config-5.10.17 ]
+then
+	cp /boot/config-5.10.17 .config
+else
+	make defconfig
+	make menuconfig
+fi
+make
+make modules_install
+cp -iv arch/x86/boot/bzImage /boot/vmlinuz-5.10.17-lfs-10.1
+cp -iv System.map /boot/System.map-5.10.17
+cat .config > /boot/config-5.10.17
+install -d /usr/share/doc/linux-5.10.17
+cp -r Documentation/* /usr/share/doc/linux-5.10.17
+popd
+popd
+grub-install $GRUBTGT
+if ! [[ -f /boot/grub/grub.cfg ]]
+then
+	grub-mkconfig -o /boot/grub/grub.cfg
+fi

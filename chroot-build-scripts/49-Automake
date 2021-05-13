@@ -1,0 +1,12 @@
+#!/bin/bash -e
+tarball="automake-1.16.3.tar.xz"
+dirname=$(echo $tarball | awk -F.tar '{print $1}')
+tar xf $tarball
+pushd $dirname
+sed -i "s/''/etags/" t/tags-lisp-space.sh
+./configure --prefix=/usr --docdir=/usr/share/doc/automake-1.16.3
+make
+make install
+popd
+rm -rf $dirname
+touch /tmp/yes

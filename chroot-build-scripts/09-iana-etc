@@ -1,0 +1,7 @@
+#!/bin/bash -e
+tar xf iana-etc-20210202.tar.gz
+pushd iana-etc-20210202
+cp services protocols /etc
+popd
+rm -rf iana-etc-20210202
+touch /tmp/yes

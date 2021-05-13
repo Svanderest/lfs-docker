@@ -1,0 +1,13 @@
+#!/bin/bash -e
+tarball="gdbm-1.19.tar.gz"
+dirname=$(echo $tarball | awk -F.tar '{print $1}')
+tar xf $tarball
+pushd $dirname
+./configure --prefix=/usr    \
+            --disable-static \
+            --enable-libgdbm-compat
+make
+make install
+popd
+rm -rf $dirname
+touch /tmp/yes

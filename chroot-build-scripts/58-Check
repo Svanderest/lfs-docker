@@ -1,0 +1,11 @@
+#!/bin/bash -e
+tarball="check-0.15.2.tar.gz"
+dirname=$(echo $tarball | awk -F.tar '{print $1}')
+tar xf $tarball
+pushd $dirname
+./configure --prefix=/usr --disable-static
+make
+make docdir=/usr/share/doc/check-0.15.2 install
+popd
+rm -rf $dirname
+touch /tmp/yes
